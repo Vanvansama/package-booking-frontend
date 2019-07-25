@@ -1,7 +1,7 @@
 export default {
-  // setTodoList(state, payload){
-  //   state.todoList = payload.list;
-  // },
+  setPackage (state, payload) {
+    state.packageList = payload.list
+  },
   // submitNewItem(state, payload) {
   //   state.todoList.push(payload)
   // },

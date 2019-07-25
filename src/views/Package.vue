@@ -3,16 +3,16 @@
     <a-row>
       <a-col :span="4"><h2>菜鸟驿站</h2></a-col>
       <a-col :span="4">
-        <a-button @click="filterAll">All</a-button>
+        <a-button @click="filter()">All</a-button>
       </a-col>
       <a-col :span="4">
-        <a-button @click="filterBook">已预约</a-button>
+        <a-button @click="filter(`已预约`)">已预约</a-button>
       </a-col>
       <a-col :span="4">
-        <a-button @click="filterPick">已取件</a-button>
+        <a-button @click="filter(`已取件`)">已取件</a-button>
       </a-col>
       <a-col :span="4">
-        <a-button @click="filterUnpick">未取件</a-button>
+        <a-button @click="filter(`未取件`)">未取件</a-button>
       </a-col>
       <a-col :span="4">
         <AddPackage />
@@ -20,16 +20,15 @@
     </a-row>
     <a-row>
       <a-col :span="24">
-        <a-table :columns="columns" :dataSource="data">
-        <a slot="name" slot-scope="text" href="javascript:;">{{text}}</a>
-        <span slot="customTitle">
-          <a-icon type="smile-o" />Name
-        </span>
+        <a-table :columns="columns" :dataSource="getList" :rowKey="record => record.id">
         <span slot="tags" slot-scope="tags">
           <a-tag v-for="tag in tags" color="blue" :key="tag">{{tag}}</a-tag>
         </span>
+        <span slot="time" slot-scope="time">
+          <span>{{time === 0 ? "" :new Date(time).toLocaleString().replace(/:\d{1,2}$/,' ')  }}</span>
+        </span>
         <span slot="action" slot-scope="text, record">
-          <a-button type="dashed">确认收货</a-button>
+          <a-button type="dashed" @click="handleReceipt(record)">确认收货</a-button>
         </span>
       </a-table>
       </a-col>
@@ -63,8 +62,9 @@ const columns = [
   },
   {
     title: "预约时间",
-    dataIndex: "appointment_time",
-    key: "appointment_time"
+    dataIndex: "appointmentTime",
+    key: "appointmentTime",
+    scopedSlots: { customRender: "time" }
   },
   {
     title: "操作",
@@ -73,39 +73,33 @@ const columns = [
   }
 ];
 
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    status: ["nice", "developer"]
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    status: ["loser"]
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sidney No. 1 Lake Park",
-    status: ["cool", "teacher"]
-  }
-];
-
+import moment from "moment";
 export default {
+  
   data() {
     return {
-      data,
       columns
     };
   },
+  mounted(){
+    moment,
+    this.$store.dispatch('getPackage')
+  },
   components: {
     AddPackage
+  },
+  computed: {
+    getList(){
+      return this.$store.getters.getAllList;
+    }
+  },
+  methods: {
+    handleReceipt(record){
+      this.$store.dispatch('updatePackage',record)
+    },
+    filter(filter){
+      this.$store.dispatch('filterPackage',{status: filter})
+    }
   }
 };
 </script>

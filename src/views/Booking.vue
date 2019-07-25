@@ -12,12 +12,16 @@
         ]"
         />
       </a-form-item>
-      <a-form-item label="取件时间" :label-col="{ span: 5 }" :wrapper-col="{ span: 1 }">
+      <a-form-item label="取件时间" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
         <a-date-picker
           format="YYYY-MM-DD HH:mm:ss"
           :disabledDate="disabledDate"
           :disabledTime="disabledDateTime"
           :showTime="{ defaultValue: moment('00:00:00', 'HH:mm:ss') }"
+          v-decorator="[
+            'appointmentTime',
+            {rules: [{ required: true, message: 'Please input your appointment time!' }]}
+          ]"
         />
       </a-form-item>
       <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
@@ -51,9 +55,7 @@ export default {
     },
     disabledDateTime() {
       return {
-        disabledHours: () => this.range(0, 24).splice(4, 20),
-        disabledMinutes: () => this.range(30, 60),
-        disabledSeconds: () => [55, 56]
+        disabledHours: () => this.range(0, 24).splice(0, 9),
       };
     },
     handleSubmit (e) {
@@ -61,6 +63,8 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           console.log('Received values of form: ', values);
+          values.appointmentTime = moment(values.appointmentTime).valueOf();
+          this.$store.dispatch('bookingPackage',values)
         }
       });
     },

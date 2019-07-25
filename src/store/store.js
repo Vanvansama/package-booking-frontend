@@ -5,13 +5,13 @@ import mutations from './mutations'
 import actions from './actions'
 import state from './states'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state,
   getters,
   mutations,
-  actions,
+  actions
 })
 
 export default store;

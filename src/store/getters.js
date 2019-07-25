@@ -1,7 +1,7 @@
-export default{
-  // getAllList(state) {
-  //   return state.todoList
-  // },
+export default {
+  getAllList (state) {
+    return state.packageList
+  },
   // getActiveList(state) {
   //   return state.todoList.filter(item => item.status === false)
   // },

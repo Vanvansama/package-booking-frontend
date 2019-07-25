@@ -22,7 +22,7 @@
         <a-form-item label="收件人" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
           <a-input
             v-decorator="[
-              'recipient',
+              'addressee',
               {rules: [{ required: true, message: 'Please input recipient!' }]}
             ]"
           />
@@ -65,18 +65,13 @@ export default {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values);
+          this.$store.dispatch('addPackage',values)
+          this.visible = false
         }
       });
     },
     handleOk(e) {
       this.handleSubmit(e);
-      // this.ModalText = "The modal will be closed after two seconds";
-      // this.confirmLoading = true;
-      // setTimeout(() => {
-      //   this.visible = false;
-      //   this.confirmLoading = false;
-      // }, 2000);
     },
     handleCancel(e) {
       console.log("Clicked cancel button");
