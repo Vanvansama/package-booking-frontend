@@ -5,13 +5,12 @@
       <a-layout-sider width="200" style="background: #fff">
         <a-menu
           mode="inline"
-          :defaultSelectedKeys="['1']"
+          :defaultSelectedKeys="['/package']"
+          @click="handleClick"
           :style="{ height: '100%', borderRight: 0 }"
         >
-          <a-menu-item key="1">option1</a-menu-item>
-          <a-menu-item key="2">option2</a-menu-item>
-          <a-menu-item key="3">option3</a-menu-item>
-          <a-menu-item key="4">option4</a-menu-item>
+          <a-menu-item key="/package">快递管理</a-menu-item>
+          <a-menu-item key="/booking">预约取件</a-menu-item>
         </a-menu>
       </a-layout-sider>
       <a-layout style="padding: 0 24px 24px">
@@ -33,6 +32,11 @@
 
 <script>
 export default {
-  name: "home"
+  name: "home",
+  methods: {
+    handleClick (item) {
+      this.$router.push(item.key)
+    },
+  }
 };
 </script>

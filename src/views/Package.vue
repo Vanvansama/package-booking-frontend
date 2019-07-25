@@ -4,6 +4,7 @@
       <a-button @click="setAgeSort">Sort age</a-button>
       <a-button @click="clearFilters">Clear filters</a-button>
       <a-button @click="clearAll">Clear filters and sorters</a-button>
+      <AddPackage/>
     </div>
     <a-table :columns="columns" :dataSource="data">
       <a slot="name" slot-scope="text" href="javascript:;">{{text}}</a>
@@ -28,6 +29,7 @@
 </template>
 
 <script>
+import AddPackage from '@/components/AddPackage.vue'
 const columns = [
   {
     dataIndex: "name",
@@ -88,6 +90,9 @@ export default {
       data,
       columns
     };
+  },
+  components: {
+    AddPackage
   }
 };
 </script>
