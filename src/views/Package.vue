@@ -1,60 +1,73 @@
 <template>
   <div>
-    <div class="table-operations">
-      <a-button @click="setAgeSort">Sort age</a-button>
-      <a-button @click="clearFilters">Clear filters</a-button>
-      <a-button @click="clearAll">Clear filters and sorters</a-button>
-      <AddPackage/>
-    </div>
-    <a-table :columns="columns" :dataSource="data">
-      <a slot="name" slot-scope="text" href="javascript:;">{{text}}</a>
-      <span slot="customTitle">
-        <a-icon type="smile-o" />Name
-      </span>
-      <span slot="tags" slot-scope="tags">
-        <a-tag v-for="tag in tags" color="blue" :key="tag">{{tag}}</a-tag>
-      </span>
-      <span slot="action" slot-scope="text, record">
-        <a href="javascript:;">Invite 一 {{record.name}}</a>
-        <a-divider type="vertical" />
-        <a href="javascript:;">Delete</a>
-        <a-divider type="vertical" />
-        <a href="javascript:;" class="ant-dropdown-link">
-          More actions
-          <a-icon type="down" />
-        </a>
-      </span>
-    </a-table>
+    <a-row>
+      <a-col :span="4"><h2>菜鸟驿站</h2></a-col>
+      <a-col :span="4">
+        <a-button @click="filterAll">All</a-button>
+      </a-col>
+      <a-col :span="4">
+        <a-button @click="filterBook">已预约</a-button>
+      </a-col>
+      <a-col :span="4">
+        <a-button @click="filterPick">已取件</a-button>
+      </a-col>
+      <a-col :span="4">
+        <a-button @click="filterUnpick">未取件</a-button>
+      </a-col>
+      <a-col :span="4">
+        <AddPackage />
+      </a-col>
+    </a-row>
+    <a-row>
+      <a-col :span="24">
+        <a-table :columns="columns" :dataSource="data">
+        <a slot="name" slot-scope="text" href="javascript:;">{{text}}</a>
+        <span slot="customTitle">
+          <a-icon type="smile-o" />Name
+        </span>
+        <span slot="tags" slot-scope="tags">
+          <a-tag v-for="tag in tags" color="blue" :key="tag">{{tag}}</a-tag>
+        </span>
+        <span slot="action" slot-scope="text, record">
+          <a-button type="dashed">确认收货</a-button>
+        </span>
+      </a-table>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
 <script>
-import AddPackage from '@/components/AddPackage.vue'
+import AddPackage from "@/components/AddPackage.vue";
 const columns = [
   {
-    dataIndex: "name",
-    key: "name",
-    slots: { title: "customTitle" },
-    scopedSlots: { customRender: "name" }
+    dataIndex: "id",
+    key: "id",
+    title: "运单号"
   },
   {
-    title: "Age",
-    dataIndex: "age",
-    key: "age"
+    title: "收件人",
+    dataIndex: "addressee",
+    key: "addressee"
   },
   {
-    title: "Address",
-    dataIndex: "address",
-    key: "address"
+    title: "电话",
+    dataIndex: "phone",
+    key: "phone"
   },
   {
-    title: "Tags",
-    key: "tags",
-    dataIndex: "tags",
+    title: "状态",
+    key: "status",
+    dataIndex: "status",
     scopedSlots: { customRender: "tags" }
   },
   {
-    title: "Action",
+    title: "预约时间",
+    dataIndex: "appointment_time",
+    key: "appointment_time"
+  },
+  {
+    title: "操作",
     key: "action",
     scopedSlots: { customRender: "action" }
   }
@@ -66,21 +79,21 @@ const data = [
     name: "John Brown",
     age: 32,
     address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"]
+    status: ["nice", "developer"]
   },
   {
     key: "2",
     name: "Jim Green",
     age: 42,
     address: "London No. 1 Lake Park",
-    tags: ["loser"]
+    status: ["loser"]
   },
   {
     key: "3",
     name: "Joe Black",
     age: 32,
     address: "Sidney No. 1 Lake Park",
-    tags: ["cool", "teacher"]
+    status: ["cool", "teacher"]
   }
 ];
 
